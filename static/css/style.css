@@ -1,0 +1,57 @@
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('../images/menu_bg.png'); /* Ustaw tło dla całego ciała */
+    background-size: cover; /* Dopasowanie obrazu do rozmiaru okna przeglądarki */
+    background-position: center; /* Wyrównanie obrazu do środka */
+    margin: 0; /* Usunięcie domyślnych marginesów */
+    padding: 0; /* Usunięcie domyślnych paddingów */
+    text-align: center; /* Wyrównanie tekstu do środka */
+    height: 100vh; /* Wysokość 100% okna przeglądarki */
+    color: white; /* Ustaw kolor tekstu na biały dla lepszej widoczności */
+}
+
+.menu {
+    margin-top: 10px;
+    margin-left: 40%;
+    margin-right: 40%;
+    padding: 50px; /* Padding dla estetyki */
+    background-color: rgba(0, 0, 0, 0.5); /* Lekko przezroczysty czarny kolor tła dla menu */
+    border-radius: 20px; /* Zaokrąglenie rogów */
+}
+
+button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none; /* Bez ramki */
+    border-radius: 5px; /* Zaokrąglenie rogów przycisków */
+    cursor: pointer; /* Zmiana kursora na wskazujący */
+    background-color: rgba(255, 255, 255, 0.8); /* Lekko przezroczysty kolor przycisku */
+}
+
+button:hover {
+    background-color: rgb(56, 52, 52); /* Zmiana koloru przycisku przy najeździe */
+}
+
+#gameCanvas {
+    border: 1px solid #000; /* Ramka wokół kanwy */
+    margin-top: 20px; /* Odstęp nad kanwą */
+}
+
+/* Styl dla przycisku muzyki */
+.music-button {
+    position: absolute; /* Ustawienia pozycji */
+    top: 20px; /* Odstęp od góry */
+    right: 20px; /* Odstęp od prawej */
+    background-color: rgba(0, 0, 0, 0.7); /* Tło przycisku */
+    color: white; /* Kolor tekstu */
+    border: none; /* Bez ramki */
+    border-radius: 5px; /* Zaokrąglenie rogów przycisku */
+    padding: 10px; /* Padding przycisku */
+    cursor: pointer; /* Zmiana kursora na wskazujący */
+    font-size: 20px; /* Ustaw rozmiar czcionki dla ikony */
+}
+
+.music-button i {
+    pointer-events: none; /* Zapobiega interakcji z ikoną */
+}

@@ -1,0 +1,59 @@
+# Node modules
+node_modules/
+npm-debug.log
+
+# Python
+__pycache__/
+*.py[cod]
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+*.env
+
+# Build outputs
+dist/
+build/
+out/
+
+# Logs
+*.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Database files
+*.sqlite
+*.db
+
+# Media files
+*.mp3
+*.wav
+*.mp4
+*.avi
+*.mkv
+*.mov
+
+# Images
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+
+# Other
+*.tgz
+*.zip
+*.tar.gz

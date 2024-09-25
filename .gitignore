@@ -19,6 +19,7 @@ Thumbs.db
 # Environment files
 .env
 *.env
+*.venv
 
 # Build outputs
 dist/
@@ -46,12 +47,7 @@ temp/
 *.mkv
 *.mov
 
-# Images
-*.png
-*.jpg
-*.jpeg
-*.gif
-*.webp
+
 
 # Other
 *.tgz

@@ -1,0 +1,106 @@
+body {
+    font-family: 'MedievalSharp', serif;
+    background-image: url('../images/menu_bg.png'); /* Dopasowanie do tła menu */
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.login-container {
+    background-color: rgba(0, 0, 0, 0.7); /* Półprzezroczyste ciemne tło */
+    padding: 30px;
+    border-radius: 20px; /* Zaokrąglone rogi */
+    width: 350px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Cień */
+}
+
+h1 {
+    font-size: 36px; /* Duży nagłówek */
+    text-shadow: 2px 2px 4px black; /* Cień tekstu */
+    margin-bottom: 20px;
+}
+
+.message-list {
+    background-color: rgba(255, 0, 0, 0.7); /* Tło dla komunikatów błędów */
+    padding: 10px;
+    border-radius: 10px;
+    list-style-type: none;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.message-list li {
+    color: white;
+    text-align: center;
+    margin: 5px 0;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 18px; /* Ustawienie odpowiedniego rozmiaru dla etykiet */
+    display: block;
+    margin-bottom: 8px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%; /* Szerokość 100% pola */
+    padding: 10px;
+    border: none;
+    border-radius: 10px; /* Zaokrąglenie rogów */
+    font-size: 16px;
+    background-color: rgba(255, 255, 255, 0.8); /* Jasne tło pola */
+    color: black;
+    box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.5); /* Wewnętrzny cień */
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.9); /* Trochę jaśniejsze tło na focus */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Delikatny cień podczas fokusu */
+}
+
+.login-button {
+    width: auto; /* Automatyczna szerokość */
+    padding: 10px 30px; /* Dodanie paddingu dla komfortowego kliknięcia */
+    font-size: 24px; /* Większy rozmiar czcionki, dopasowany do menu */
+    font-weight: bold; /* Pogrubienie tekstu */
+    font-family: 'MedievalSharp', serif; /* Czcionka MedievalSharp */
+    background-color: transparent; /* Brak tła */
+    color: white; /* Biały tekst */
+    border: none; /* Brak obramowania */
+    cursor: pointer; /* Zmiana kursora na wskaźnik */
+    text-shadow: 1px 1px 2px black; /* Cień dla lepszej widoczności */
+    transition: transform 0.3s ease; /* Płynna animacja skalowania */
+    display: inline-block; /* Zachowanie rozmiaru względem tekstu */
+}
+
+.login-button:hover {
+    transform: scale(1.05); /* Powiększenie przycisku przy najechaniu */
+    color: #ffa500; /* Zmiana koloru tekstu na pomarańczowy */
+}
+
+
+p {
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+a {
+    color: #ffa500; /* Pomarańczowy kolor linku */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}

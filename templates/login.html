@@ -4,31 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logowanie</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Logowanie</h1>
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-        {% for message in messages %}
-          <li>{{ message }}</li>
-        {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
-    <form method="POST" action="/">
-
-        <div>
-            <label for="username">Użytkownika:</label>
-            <input type="text" name="username" required>
-        </div>
-        <div>
-            <label for="password">Hasło:</label>
-            <input type="password" name="password" required>
-        </div>
-        <button type="submit">Zaloguj</button>
-    </form>
-    <p>Nie masz konta? <a href="/register">Zarejestruj się</a></p>
+    <div class="login-container">
+        <h1>Logowanie</h1>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class="message-list">
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+        <form method="POST" action="/">
+            <div class="form-group">
+                <label for="username">Użytkownik:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Hasło:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="login-button">Zaloguj</button>
+        </form>
+        <p>Nie masz konta? <a href="/register">Zarejestruj się</a></p>
+    </div>
 </body>
 </html>

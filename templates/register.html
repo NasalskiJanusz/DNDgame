@@ -4,37 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rejestracja</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Rejestracja</h1>
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-        {% for message in messages %}
-          <li>{{ message }}</li>
-        {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
-    <form method="POST">
-        <div>
-            <label for="username">Nazwa użytkownika:</label>
-            <input type="text" name="username" required>
-        </div>
-        <div>
-            <label for="password">Hasło:</label>
-            <input type="password" name="password" required>
-        </div>
-        <div>
-            <label for="role">Typ konta:</label>
-            <select name="role" required>
-                <option value="gracz">Gracz</option>
-                <option value="game_master">Mistrz Gry</option>
-            </select>
-        </div>
-        <button type="submit">Zarejestruj się</button>
-    </form>
-    <p>Masz już konto? <a href="/">Zaloguj się</a></p>
+    <div class="register-container">
+        <h1>Rejestracja</h1>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class="message-list">
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+        <form method="POST">
+            <div class="form-group">
+                <label for="username">Nazwa użytkownika:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Hasło:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="role">Typ konta:</label>
+                <select id="role" name="role" required>
+                    <option value="gracz">Gracz</option>
+                    <option value="game_master">Mistrz Gry</option>
+                </select>
+            </div>
+            <button type="submit">Zarejestruj się</button>
+        </form>
+        <p>Masz już konto? <a href="/">Zaloguj się</a></p>
+    </div>
 </body>
 </html>

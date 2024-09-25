@@ -1,4 +1,4 @@
-body {
+body,html {
     font-family: 'MedievalSharp', serif;
     background-image: url('../images/menu_bg.png'); /* Ustaw tło dla całego ciała */
     background-size: cover; /* Dopasowanie obrazu do rozmiaru okna przeglądarki */
@@ -8,10 +8,12 @@ body {
     text-align: center; /* Wyrównanie tekstu do środka */
     height: 100vh; /* Wysokość 100% okna przeglądarki */
     color: white; /* Ustaw kolor tekstu na biały dla lepszej widoczności */
+    overflow: hidden; /* Wyłączenie przewijania */
+    box-sizing: border-box; /* Zapewnia poprawne obliczanie szerokości i wysokości */
 }
 
 .menu {
-    margin-top: 10px;
+    margin-top: 5px;
     margin-left: 40%;
     margin-right: 40%;
     padding: 50px; /* Padding dla estetyki */

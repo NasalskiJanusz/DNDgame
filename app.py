@@ -49,7 +49,7 @@ def login():
 
         flash('Nieprawidłowa nazwa użytkownika lub hasło')
     return render_template('login.html')
-print("settings")
+
 # Upewnij się, że ta linia jest dodana
 login_manager.login_view = 'login'
 

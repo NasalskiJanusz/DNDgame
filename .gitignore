@@ -45,7 +45,7 @@ temp/
 *.avi
 *.mkv
 *.mov
-
+*.venv
 # Images
 *.png
 *.jpg

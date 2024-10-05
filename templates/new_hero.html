@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tworzenie Postaci D&D</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'MedievalSharp', serif;
+            background-color: #2c2c2c;
+            color: white;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        label {
+            font-weight: bold;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .section-title {
+            margin-top: 20px;
+            font-size: 1.5em;
+            text-decoration: underline;
+        }
+        .btn-primary {
+            margin-top: 20px;
+        }
+        .checkbox-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #444;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Tworzenie Postaci D&D</h1>
+        <form action="/new_hero" method="POST">
+            <div class="row">
+                <!-- Informacje ogólne -->
+                <h2 class="section-title">Informacje Ogólne</h2>
+                <div class="col-md-4">
+                    <label for="name" class="form-label">Imię Postaci:</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="class" class="form-label">Klasa:</label>
+                    <input type="text" class="form-control" id="class" name="class" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="race" class="form-label">Rasa:</label>
+                    <input type="text" class="form-control" id="race" name="race">
+                </div>
+            </div>       
+            <!-- Atrybuty (Statystyki) -->
+            <h2 class="section-title">Atrybuty</h2>
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="strength" class="form-label">Siła (STR):</label>
+                    <input type="number" class="form-control" id="strength" name="strength" value="10" required>
+                </div>
+                <div class="col-md-2">
+                    <label for="dexterity" class="form-label">Zręczność (DEX):</label>
+                    <input type="number" class="form-control" id="dexterity" name="dexterity" value="10" required>
+                </div>
+                <div class="col-md-2">
+                    <label for="stm" class="form-label">Wytrzymałość (STM):</label>
+                    <input type="number" class="form-control" id="stm" name="stm" value="10" required>
+                </div>
+                <div class="col-md-2">
+                    <label for="intelligence" class="form-label">Inteligencja (INT):</label>
+                    <input type="number" class="form-control" id="intelligence" name="intelligence" value="10" required>
+                </div>
+                <div class="col-md-2">
+                    <label for="charisma" class="form-label">Charyzma (CHA):</label>
+                    <input type="number" class="form-control" id="charisma" name="charisma" value="10" required>
+                </div>
+                <div class="col-md-2">
+                    <label for="luck" class="form-label">Szczęście (LUC):</label>
+                    <input type="number" class="form-control" id="luck" name="luck" value="10" required>
+                </div>
+            </div>
+
+            <!-- Umiejętności (Zaklęcia) -->
+            <h2 class="section-title">Zaklęcia</h2>
+            <div class="mb-3">
+                <label for="spells" class="form-label">Wybierz Zaklęcia:</label>
+                <div class="checkbox-list">
+                    {% for spell in spells %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="spells" value="{{ spell.id }}" id="spell{{ loop.index }}">
+                        <label class="form-check-label" for="spell{{ loop.index }}">
+                            {{ spell.name }} ({{ spell.element }}, Poziom: {{ spell.level }})
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+                <small class="form-text" style="color:red;">Zaznacz zaklęcia, które chcesz wybrać.</small>
+            </div>
+
+            <!-- Statystyki walki -->
+            <h2 class="section-title">Statystyki Walki</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="hp" class="form-label">Punkty Życia (HP):</label>
+                    <input type="number" class="form-control" id="hp" name="hp" value="10" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="mp" class="form-label">Mana (MP):</label>
+                    <input type="number" class="form-control" id="mp" name="mp" value="10" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="armor" class="form-label">Pancerz (AC):</label>
+                    <input type="number" class="form-control" id="armor" name="armor" value="10" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="speed" class="form-label">Szybkość (SPD):</label>
+                    <input type="number" class="form-control" id="speed" name="speed" value="10" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="magic_resistance" class="form-label">Obrona Magiczna (MR):</label>
+                    <input type="number" class="form-control" id="magic_resistance" name="magic_resistance" value="10" required>
+                </div>
+            </div>
+
+            <!-- Ekwipunek -->
+            <h2 class="section-title">Ekwipunek</h2>
+            <div class="mb-3">
+                <label for="items" class="form-label">Wybierz Przedmioty:</label>
+                <div class="checkbox-list">
+                    {% for item in items %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="items" value="{{ item.id }}" id="item{{ loop.index }}">
+                        <label class="form-check-label" for="item{{ loop.index }}">
+                            {{ item.type }}
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+                <small class="form-text" style="color:red;">Zaznacz przedmioty, które chcesz wybrać.</small>
+            </div>
+
+            <!-- Przycisk do wysłania formularza -->
+            <div class="mb-3 row">
+                <button type="submit" class="btn btn-primary">Stwórz Postać</button>
+            </div>
+            <div class="mb-3 row">
+                <a href="{{ url_for('index') }}" class="btn btn-secondary">Wróć do Menu</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

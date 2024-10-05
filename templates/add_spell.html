@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dodaj Zaklęcie</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Dodaj Nowe Zaklęcie</h1>
+        <form method="POST" action="{{ url_for('handle_add_spell') }}">
+            <div class="mb-3">
+                <label for="name" class="form-label">Nazwa zaklęcia</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="mb-3">
+                <label for="level" class="form-label">Poziom zaklęcia</label>
+                <input type="number" class="form-control" id="level" name="level" required>
+            </div>
+            <div class="mb-3">
+                <label for="damage_formula" class="form-label">Formuła obrażeń (np. INT + ROLLKI / ZASIĘG)</label>
+                <input type="text" class="form-control" id="damage_formula" name="damage_formula" required>
+            </div>
+            <div class="mb-3">
+                <label for="mana_cost" class="form-label">Koszt many</label>
+                <input type="number" class="form-control" id="mana_cost" name="mana_cost" required>
+            </div>
+            <div class="mb-3">
+                <label for="action_points" class="form-label">Punkty ruchu</label>
+                <input type="number" class="form-control" id="action_points" name="action_points" required>
+            </div>
+            <div class="mb-3">
+                <label for="range" class="form-label">Zasięg</label>
+                <select class="form-select" id="range" name="range" required>
+                    <option value="1">W zwarciu</option>
+                    <option value="2">Blisko</option>
+                    <option value="3">Średnio</option>
+                    <option value="4">Daleko</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="element" class="form-label">Żywioł</label>
+                <select class="form-select" id="element" name="element" required>
+                    <option value="Ogień">Ogień</option>
+                    <option value="Woda">Woda</option>
+                    <option value="Ziemia">Ziemia</option>
+                    <option value="Powietrze">Powietrze</option>
+                    <option value="Błyskawica">Błyskawica</option>
+                    <option value="Lód">Lód</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Opis</label>
+                <input type="text" class="form-control" id="description" name="description">
+            </div>
+            <div class="mb-3 row">
+                <button type="submit" class="btn btn-primary">Dodaj Zaklęcie</button>
+            </div>
+            
+            <div class="mb-3 row">
+                <a href="{{ url_for('index') }}" class="btn btn-secondary">Wróć do Menu</a>
+            </div>
+        </form>
+
+        <!-- Pole do filtrowania -->
+        <input type="text" id="search" class="form-control" placeholder="Szukaj zaklęcia" onkeyup="filterSpells()">
+
+        <!-- Tabela z zaklęciami -->
+        <table class="table table-striped mt-4" id="spellsTable">
+            <thead>
+                <tr>
+                    <th>Nazwa</th>
+                    <th>Poziom</th>
+                    <th>Formuła obrażeń</th>
+                    <th>Koszt many</th>
+                    <th>Punkty ruchu</th>
+                    <th>Zasięg</th>
+                    <th>Żywioł</th>
+                    <th>Opis</th>
+                    <th>Akcje</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for spell in spells %}
+                <tr>
+                    <td>{{ spell['name'] }}</td>
+                    <td>{{ spell['level'] }}</td>
+                    <td>{{ spell['damage_formula'] }}</td>
+                    <td>{{ spell['mana_cost'] }}</td>
+                    <td>{{ spell['action_points'] }}</td>
+                    <td>{{ spell['range'] }}</td>
+                    <td>{{ spell['element'] }}</td>
+                    <td>{{ spell['description'] }}</td>
+                    <td>
+                        <form method="POST" action="{{ url_for('delete_spell', spell_id=spell['id']) }}">
+                            <button type="submit" class="btn btn-danger">Usuń</button>
+                        </form>
+                    </td>
+                </tr>
+                
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function filterSpells() {
+            var input, filter, table, tr, td, i, j, txtValue;
+            input = document.getElementById("search");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("spellsTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 1; i < tr.length; i++) {
+                tr[i].style.display = "none";
+                td = tr[i].getElementsByTagName("td");
+                for (j = 0; j < td.length; j++) {
+                    if (td[j]) {
+                        txtValue = td[j].textContent || td[j].innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</body>
+</html>

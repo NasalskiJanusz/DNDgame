@@ -26,14 +26,6 @@ body,html {
 }
 
 
-
-
-
-#gameCanvas {
-    border: 1px solid #000; /* Ramka wokół kanwy */
-    margin-top: 20px; /* Odstęp nad kanwą */
-}
-
 /* Styl dla przycisku muzyki */
 .music-button {
     position: absolute; /* Ustawienia pozycji */
@@ -67,7 +59,9 @@ body,html {
     font-size: 30px; /* Dopasowanie rozmiaru czcionki */
     font-weight: bold; /* Pogrubienie tekstu */
     color: white; /* Kolor tekstu */
-    text-shadow: 1px 1px 2px black; /* Cień tekstu dla lepszej widoczności */
+    text-shadow: 20px 20px 20px black; /* Cień tekstu dla lepszej widoczności */
+
+
 
     margin: 10px auto; /* Wyśrodkowanie poziome */
     transition: transform 0.1s; /* Dodanie animacji na hover */

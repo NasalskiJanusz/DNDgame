@@ -13,6 +13,7 @@
 
 </head>
 <body>
+
     <audio id="backgroundMusic" loop>
         <source src="{{ url_for('static', filename='music/menu.mp3') }}" type="audio/mpeg">
         Twój przeglądarka nie obsługuje odtwarzania audio.
@@ -21,35 +22,42 @@
       
     <!--Menu główne-->      
     <div class="menu">
+        <h1 style="color:red; text-shadow: 20px 20px 20px black; font-weight: bold;">Witaj {{ current_user.username }}</h1>  <!-- Wyświetlenie zalogowanego użytkownika -->
         <img src="static/images/menu_logo.png" alt="D&D logo">
-        <form>
-            <button id="startGameBtn" type="button" class="custom-button">
-                Nowa gra
-            </button>
-        </form>
+        
         <form>
             <button id="loadGameBtn" type="button" class="custom-button">
                 Załaduj Grę
             </button>
         </form>
-        <form>
-            <button id="CreateCharacterBtn" type="button" class="custom-button">
-                Stwórz nową postać
+        <form action="{{ url_for('new_hero') }}" method="GET">
+            <button type="submit" class="custom-button">
+                Stwórz Postać
             </button>
         </form>
-        <form>
-            <button id="settingsBtn" type="button" class="custom-button">
-                Ustawienia
+        
+        <form action="{{ url_for('new_item') }}" method="GET">
+            <button type="submit" class="custom-button">
+                Dodaj Ekwipunek
             </button>
         </form>
-        <form>
+        
+        <form action="/add_spell" method="GET">
+            <button type="submit" class="custom-button">
+                Dodaj Spella
+            </button>
+        </form>
+        
+        <form action="/logout">
             <button type="logout" class="custom-button">
                 Wyloguj
             </button>
         </form>
     </div>
 
-    
+    <div class="dynamic-content">
+        
+    </div>
     <div id="gameArea" style="display: none;">
         <canvas id="gameCanvas"></canvas>
         <button id="backToMenuBtn" class="btn btn-secondary">Powrót do Menu</button>

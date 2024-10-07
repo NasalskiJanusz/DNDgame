@@ -1,0 +1,7 @@
+1. zamienniki mapy - rage
+2. stackowanie postaci np. soule
+3. blood do obgadania
+
+
+4. where_item ZRÓB UPDATE W KODZIE BACKEND ALLOWED_WHERE = [] albo inny sposób na sprawdzenie czu ma to już założone
+    - odśwież baze danych i dodaj itemkom gdzie moze być założony

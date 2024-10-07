@@ -79,6 +79,32 @@ def get_user(identifier):
 
 
 
+def init_items_db():
+    conn = sqlite3.connect('items.db')
+    cursor = conn.cursor()
+    
+    # Tworzenie tabeli items, jeśli nie istnieje
+    cursor.execute('''CREATE TABLE IF NOT EXISTS items (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        type TEXT NOT NULL,
+        str INTEGER NOT NULL,
+        dex INTEGER NOT NULL,
+        stm INTEGER NOT NULL,
+        int INTEGER NOT NULL,
+        cha INTEGER NOT NULL,
+        hp INTEGER NOT NULL,
+        mp INTEGER NOT NULL,
+        ac INTEGER NOT NULL,
+        mr INTEGER NOT NULL,
+        spd INTEGER NOT NULL,
+        luck INTEGER NOT NULL,
+        rarity TEXT,
+        desc TEXT,
+        where_item TEXT
+    )''')
+
+    conn.commit()
+    conn.close()
 
 
 
@@ -118,93 +144,95 @@ def init_heroes_db():
 
 
 # Funkcja do dodawania bohatera do bazy danych
-def add_hero(name, hero_class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance, hp, mp, armor, speed, luck):
+def add_hero(name, hero_class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance, hp, mp, armor, speed, luck, items, spells):
     conn = sqlite3.connect('heroes.db')
     c = conn.cursor()
-    print("co wysłałem")
-    print(name, hero_class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance, hp, mp, armor, speed, luck)
+
+    # Dodanie bohatera do heroes.db (wszyscy bohaterowie)
     c.execute(''' 
         INSERT INTO heroes (name, class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance, hp, mp, armor, speed, luck)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ''', (name, hero_class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance, hp, mp, armor, speed, luck))
     conn.commit()
     conn.close()
-
-
-
-def init_items_db():
-    conn = sqlite3.connect('items.db')
-    cursor = conn.cursor()
     
-    # Tworzenie tabeli items, jeśli nie istnieje
-    cursor.execute('''CREATE TABLE IF NOT EXISTS items (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        type TEXT NOT NULL,
-        str INTEGER NOT NULL,
-        dex INTEGER NOT NULL,
-        stm INTEGER NOT NULL,
-        int INTEGER NOT NULL,
-        cha INTEGER NOT NULL,
-        hp INTEGER NOT NULL,
-        mp INTEGER NOT NULL,
-        ac INTEGER NOT NULL,
-        mr INTEGER NOT NULL,
-        spd INTEGER NOT NULL,
-        luck INTEGER NOT NULL,
-        rarity TEXT,
-        desc TEXT
-    )''')
-
+    # -----------------Druga część funkcji-------------------------
+    
+    conn = sqlite3.connect(f"{name}_baza.db")
+    c = conn.cursor()
+    
+    # Wpisz staty do jego osobistej bazy danych
+    c.execute(''' 
+        INSERT INTO staty_herosa (name, class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance, hp, mp, armor, speed, luck)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (name, hero_class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance, hp, mp, armor, speed, luck))
+    
+    # Insert spelli i itemów do bazy danych bohatera (plecak i spelle)
+    for item_id in items:
+        c.execute("INSERT INTO plecak (item_id) VALUES (?)",(item_id)) 
+    for spell_id in spells:
+        c.execute("INSERT INTO spells (spell_id) VALUES (?)",(spell_id))   
+    
+  
     conn.commit()
     conn.close()
+
+
 
     
 # Funkcja tworząca osobne bazy danych na przedmioty i zaklęcia
 def create_hero_equipment_spells_databases(hero_name):
-    # Tworzenie bazy danych dla przedmiotów
-    conn = sqlite3.connect(f"{hero_name}_items.db")
+    # Tworzenie bazy danych dla bohatera
+    conn = sqlite3.connect(f"{hero_name}_baza.db")
     c = conn.cursor()
+    
+    # Staty do modyfikacji w obliczeniach
     c.execute('''
-        CREATE TABLE IF NOT EXISTS items (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            type TEXT,
-            str INTEGER,
-            dex INTEGER,
-            stm INTEGER,
-            int INTEGER,
-            cha INTEGER,
-            hp INTEGER,
-            mp INTEGER,
-            ac INTEGER,
-            mr INTEGER,
-            spd INTEGER,
-            luck INTEGER,
-            rarity TEXT,
-            desc TEXT
-        )
-    ''')
+            CREATE TABLE IF NOT EXISTS staty_herosa (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                class TEXT NOT NULL,
+                race TEXT,
+                strength INTEGER,
+                dexterity INTEGER,
+                stm INTEGER,
+                intelligence INTEGER,
+                charisma INTEGER,
+                magic_resistance INTEGER,
+                hp INTEGER,
+                mp INTEGER,
+                armor INTEGER,
+                speed INTEGER,
+                luck INTEGER
+            )
+        ''')
+    
+    # Eq postaci czyli to co nosi na sobie
+    c.execute('''
+              CREATE TABLE IF NOT EXISTS ekwipunek(
+                  id INTEGER PRIMARY KEY AUTOINCREMENT,
+                  item_id INTEGER,
+                  where_item TEXT
+              )
+              ''')
+    
+    # Spelle które już umie
+    c.execute('''
+              CREATE TABLE IF NOT EXISTS spells(
+                  id INTEGER PRIMARY KEY AUTOINCREMENT,
+                  spell_id INTEGER
+              )
+              ''')
+    
+    # Plecak
+    c.execute('''
+              CREATE TABLE IF NOT EXISTS plecak(
+                  id INTEGER PRIMARY KEY AUTOINCREMENT,
+                  item_id INTEGER
+              )
+              ''')
     conn.commit()
     conn.close()
-
-    # Tworzenie bazy danych dla zaklęć
-    conn = sqlite3.connect(f"{hero_name}_spells.db")
-    c = conn.cursor()
-    c.execute('''
-        CREATE TABLE IF NOT EXISTS spells (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT,
-            level INTEGER,
-            damage_formula TEXT,
-            mana_cost INTEGER,
-            action_points INTEGER,
-            range INTEGER,
-            element TEXT,
-            description TEXT
-        )
-    ''')
-    conn.commit()
-    conn.close()
-
 
 # Funkcja do pobierania wszystkich przedmiotów z bazy danych items.db
 def get_all_items():

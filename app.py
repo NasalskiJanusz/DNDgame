@@ -211,12 +211,19 @@ def new_hero():
         luck = int(request.form['luck'])  # Dodaj konwersję dla luck  
         # Dodanie bohatera do bazy danych
         try:
-            add_hero(name, hero_class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance, hp, mp, armor, speed, luck)
-            # Tworzenie oddzielnych baz danych na przedmioty i zaklęcia
+            # Tworzenie bazy danych dla bohatera (jego staty, ekwipunek, plecak oraz spelle które umie)
             create_hero_equipment_spells_databases(name)
+            
+            # Zaklęcia i przedmioty (można zaznaczyć kilka, dlatego użyjemy request.form.getlist)
+            selected_spells = request.form.getlist('spells')
+            selected_items = request.form.getlist('items')
+            
+            # Dodaj bohatera to hero.db oraz itemy i spelle do jego bazy danych
+            add_hero(name, hero_class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance, hp, mp, armor, speed, luck, selected_items, selected_spells)
+            
             return redirect(url_for('new_hero'))
         except Exception as e:
-            flash(f'Wystąpił błąd podczas dodawania bohatera: {e}')
+            print(f'Wystąpił błąd podczas dodawania bohatera: {e}')
 
             return redirect(url_for('new_hero'))
 

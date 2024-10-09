@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strona z Współpracą w Czasie Rzeczywistym</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #container {
+            display: flex;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #panel1 {
+            background-color: #f2f2f2;
+            width: 400px; /* Nowa szerokość po wysunięciu */
+            transition: width 0.3s, visibility 0.3s, opacity 0.3s;
+            padding: 10px;
+            position: relative;
+        }
+
+        #panel1.collapsed {
+            width: 0;
+            visibility: hidden;
+            opacity: 0;
+            padding: 0; /* Usuwa wewnętrzne odstępy, kiedy panel jest schowany */
+        }
+
+        #panel2 {
+            flex-grow: 1;
+            background-color: #e0e0e0;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: auto;
+            /* Ogranicz wysokość panelu 2 */
+            min-height: 50px; /* Zwiększenie dolnej granicy wysokości */
+        }
+
+        /* Zmiana stylu panelu 3 */
+        #panel3 {
+            background-color: #d0d0d0;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            flex-basis: 200px; /* Zwiększamy wysokość panelu 3 */
+        }
+
+        #panel3A, #panel3B {
+            background-color: #b0b0b0;
+            padding: 5px;
+            flex-grow: 1;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        #panel3B {
+            margin-bottom: 0; /* Usunięcie marginesu z dolnego panelu */
+        }
+
+        /* Panel 4 */
+        #panel4 {
+            height: 100px; /* Zwiększamy wysokość panelu 4 */
+            background-color: #c0c0c0;
+            padding: 10px;
+        }
+
+        /* Panel 5 (Nowy panel po prawej stronie) */
+        #panel5 {
+            background-color: #f2f2f2;
+            width: 400px; /* Nowa szerokość po wysunięciu */
+            transition: width 0.3s, visibility 0.3s, opacity 0.3s;
+            padding: 10px;
+            position: relative;
+        }
+
+        #panel5.collapsed {
+            width: 0;
+            visibility: hidden;
+            opacity: 0;
+            padding: 0; /* Usuwa wewnętrzne odstępy, kiedy panel jest schowany */
+        }
+
+        #toggleButton1, #toggleButton5 {
+            padding: 5px;
+            cursor: pointer;
+            background-color: #ccc;
+            border: none;
+            position: absolute;
+            top: 10px;
+            z-index: 1000; /* Zapewnia, że przycisk będzie "pływającym" elementem ponad innymi */
+            width: 40px;
+            height: 30px;
+        }
+
+        #toggleButton1 {
+            left: 10px; /* Pozycja przycisku dla panelu 1 */
+        }
+
+        #panel1.collapsed + #toggleButton1 {
+            left: 0px; /* Gdy panel 1 jest zwinięty */
+        }
+
+        #panel1:not(.collapsed) + #toggleButton1 {
+            left: 410px; /* Gdy panel 1 jest wysunięty */
+        }
+
+        #toggleButton5 {
+            right: 10px; /* Pozycja przycisku dla panelu 5 */
+        }
+
+        #panel5.collapsed + #toggleButton5 {
+            right: 0px; /* Gdy panel 5 jest zwinięty */
+        }
+
+        #panel5:not(.collapsed) + #toggleButton5 {
+            right: 410px; /* Gdy panel 5 jest wysunięty */
+        }
+
+        #panelContainer {
+            position: relative;
+        }
+
+        /* Dostosowanie proporcji panelu 2 i 3 */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        #panel3 {
+            flex-grow: 0; /* Panel 3 ma ustaloną wysokość */
+        }
+
+        #panel4 {
+            flex-grow: 0; /* Panel 4 ma ustaloną wysokość */
+        }
+        #panel1 button {
+            display: row;
+            margin: 5px auto; /* Ustawienie marginesu na górze i dole, automatyczne centrowanie */
+            padding: 5px 35px; /* Wewnętrzne odstępy dla przycisków */
+            font-size: 16px; /* Rozmiar czcionki */
+            cursor: pointer; /* Wskazuje, że element jest klikalny */
+        }
+        
+    </style>
+</head>
+<body>
+
+<div id="container">
+    <!-- Panel 1 (Zwijany/Wysuwany) -->
+    <div id="panelContainer">
+        <div id="panel1" style="text-align:center;">
+            <!-- Zawartość panelu 1 -->
+            <p>Ekwipunek i staty graczy</p>
+            <button id="player1Button">Kamil</button>
+            <button id="player2Button">Piotrek</button>
+            <button id="player3Button">Kuba</button>
+        </div>
+        <button id="toggleButton1"><<<</button>
+    </div>
+
+    <!-- Główna zawartość strony (Panele 2, 3, 4) -->
+    <div class="main-content">
+        <!-- Panel 3 (Menu) podzielony na dwie sekcje -->
+        <div id="panel3">
+            <div id="panel3A">
+                <!-- Zawartość pierwszej części panelu 3 -->
+                <p>Część 1</p>
+            </div>
+            <div id="panel3B">
+                <!-- Zawartość drugiej części panelu 3 -->
+                <p>Część 2</p>
+            </div>
+        </div>
+
+        <!-- Panel 2 (Współpraca w czasie rzeczywistym) -->
+        <div id="panel2" contenteditable="true">
+            <!-- Użytkownicy mogą edytować tę zawartość -->
+            <p>Obszar współpracy w czasie rzeczywistym. Przeciągaj elementy, wprowadzaj tekst tutaj.</p>
+        </div>
+
+        <!-- Panel 4 (Akcje) -->
+        <div id="panel4">
+            <!-- Dodaj zawartość akcji tutaj -->
+            <p>Obszar akcji tutaj</p>
+        </div>
+    </div>
+
+    <!-- Panel 5 (Zwijany/Wysuwany) -->
+    <div id="panelContainer">
+        <div id="panel5" style="text-align:center;">
+            <!-- Zawartość panelu 5 -->
+            <p>Akcje game mastera</p>
+        </div>
+        <button id="toggleButton5">>>></button>
+    </div>
+</div>
+
+<script>
+    // JavaScript do wysuwania Panelu 1
+    const toggleButton1 = document.getElementById('toggleButton1');
+    const panel1 = document.getElementById('panel1');
+
+    toggleButton1.addEventListener('click', function() {
+        panel1.classList.toggle('collapsed');
+        if (panel1.classList.contains('collapsed')) {
+            toggleButton1.textContent = ">>>";
+        } else {
+            toggleButton1.textContent = "<<<";
+        }
+    });
+
+    // JavaScript do wysuwania Panelu 5
+    const toggleButton5 = document.getElementById('toggleButton5');
+    const panel5 = document.getElementById('panel5');
+
+    toggleButton5.addEventListener('click', function() {
+        panel5.classList.toggle('collapsed');
+        if (panel5.classList.contains('collapsed')) {
+            toggleButton5.textContent = "<<<";
+        } else {
+            toggleButton5.textContent = ">>>";
+        }
+    });
+
+    // Podstawowa funkcja przeciągnij i upuść (dla rozbudowy w panelu 2)
+    const panel2 = document.getElementById('panel2');
+    panel2.addEventListener('dragover', function(e) {
+        e.preventDefault();  // Pozwala na upuszczanie
+    });
+    panel2.addEventListener('drop', function(e) {
+        e.preventDefault();
+        const data = e.dataTransfer.getData('text');
+        panel2.innerHTML += `<p>${data}</p>`;  // Obsługa danych po upuszczeniu
+    });
+</script>
+
+</body>
+</html>

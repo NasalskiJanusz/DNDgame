@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Collaboration Page</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #container {
+            display: flex;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #panel1 {
+            background-color: #f2f2f2;
+            width: 200px; /* default width */
+            transition: width 0.3s;
+            padding: 10px;
+        }
+
+        #panel1.collapsed {
+            width: 50px;
+        }
+
+        #panel2 {
+            flex-grow: 1;
+            background-color: #e0e0e0;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #panel3, #panel4 {
+            background-color: #d0d0d0;
+            height: 50px;
+            padding: 10px;
+        }
+
+        #panel3 {
+            flex-grow: 1;
+        }
+
+        #panel4 {
+            height: 50px;
+        }
+
+        #toggleButton {
+            margin: 10px;
+            padding: 5px;
+            cursor: pointer;
+            background-color: #ccc;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+<div id="container">
+    <!-- Panel 1 (Collapsible) -->
+    <div id="panel1">
+        <button id="toggleButton">Toggle Panel 1</button>
+        <!-- Additional content for panel 1 here -->
+    </div>
+
+    <!-- Main content area (Panels 2, 3, 4) -->
+    <div style="flex-grow: 1; display: flex; flex-direction: column;">
+        <!-- Panel 3 (Menu) -->
+        <div id="panel3">
+            <!-- Add menu content here -->
+            <p>Menu content here</p>
+        </div>
+
+        <!-- Panel 2 (Real-time collaboration) -->
+        <div id="panel2" contenteditable="true">
+            <!-- Users can edit this content -->
+            <p>Real-time collaboration area. Drag items, enter text here.</p>
+        </div>
+
+        <!-- Panel 4 (Actions) -->
+        <div id="panel4">
+            <!-- Add action content here -->
+            <p>Actions area here</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // JavaScript to toggle Panel 1
+    document.getElementById('toggleButton').addEventListener('click', function() {
+        var panel1 = document.getElementById('panel1');
+        panel1.classList.toggle('collapsed');
+    });
+
+    // Basic drag-and-drop functionality (for future extensions in panel 2)
+    const panel2 = document.getElementById('panel2');
+    panel2.addEventListener('dragover', function(e) {
+        e.preventDefault();  // Allow dropping
+    });
+    panel2.addEventListener('drop', function(e) {
+        e.preventDefault();
+        const data = e.dataTransfer.getData('text');
+        panel2.innerHTML += `<p>${data}</p>`;  // Handle dropped data (text in this case)
+    });
+</script>
+
+</body>
+</html>

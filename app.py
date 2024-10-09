@@ -81,7 +81,7 @@ def create_default_user():
     try:
         c.execute('''
             INSERT INTO users (username, password, role) VALUES (?, ?, ?)
-        ''', ('admin', generate_password_hash('admin'), 'gracz'))
+        ''', ('admin', generate_password_hash('admin'), 'game_master'))
         conn.commit()
     except sqlite3.IntegrityError:
         print("Admin user already exists")
@@ -248,7 +248,22 @@ def index():
         # W razie nieznanej roli możesz przekierować do strony błędu lub powiadomić o braku uprawnień
         flash('Nieznana rola użytkownika!')
         return redirect(url_for('login'))
+    
+@app.route('/game')
 
+def game():
+    print(f"Zalogowany użytkownik: {current_user.username}, rola: {current_user.role}")  # Debugowanie
+    
+    # Sprawdź rolę użytkownika i renderuj odpowiedni szablon
+    if current_user.role == 'gracz':
+        return render_template('game_player.html')
+    elif current_user.role == 'game_master':
+        return render_template('game_master.html')
+    else:
+        # W razie nieznanej roli możesz przekierować do strony błędu lub powiadomić o braku uprawnień
+        flash('Nieznana rola użytkownika!')
+        return redirect(url_for('login'))
+    
 
 
 if __name__ == '__main__':

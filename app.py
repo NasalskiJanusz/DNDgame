@@ -208,7 +208,7 @@ def new_hero():
         mp = int(request.form['mp'])
         armor = int(request.form['armor'])
         speed = int(request.form['speed'])
-        luck = int(request.form['luck'])  # Dodaj konwersję dla luck  
+        luck = int(request.form['luck'])
         # Dodanie bohatera do bazy danych
         try:
             # Tworzenie bazy danych dla bohatera (jego staty, ekwipunek, plecak oraz spelle które umie)
@@ -218,8 +218,11 @@ def new_hero():
             selected_spells = request.form.getlist('spells')
             selected_items = request.form.getlist('items')
             
-            # Dodaj bohatera to hero.db oraz itemy i spelle do jego bazy danych
-            add_hero(name, hero_class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance, hp, mp, armor, speed, luck, selected_items, selected_spells)
+            # ID aktualnie zalogowanego użytkownika
+            user_id = current_user.id
+            
+            # Dodanie nowego bohatera
+            add_hero(name, hero_class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance, hp, mp, armor, speed, luck, selected_items, selected_spells, user_id)
             
             return redirect(url_for('new_hero'))
         except Exception as e:
@@ -238,7 +241,6 @@ def new_hero():
 @login_required  # Upewnij się, że tylko zalogowani użytkownicy mają dostęp
 def index():
     print(f"Zalogowany użytkownik: {current_user.username}, rola: {current_user.role}")  # Debugowanie
-    
     # Sprawdź rolę użytkownika i renderuj odpowiedni szablon
     if current_user.role == 'gracz':
         return render_template('index_player.html')

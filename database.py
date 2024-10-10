@@ -134,7 +134,9 @@ def init_heroes_db():
                 mp INTEGER,
                 armor INTEGER,
                 speed INTEGER,
-                luck INTEGER
+                luck INTEGER,
+                user_id INTEGER NOT NULL,  -- ID użytkownika
+                FOREIGN KEY (user_id) REFERENCES users(id)  -- Powiązanie z tabelą users
             )
         ''')
         conn.commit()
@@ -143,37 +145,36 @@ def init_heroes_db():
         print("Baza danych bohaterów już istnieje.")
 
 
+
 # Funkcja do dodawania bohatera do bazy danych
-def add_hero(name, hero_class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance, hp, mp, armor, speed, luck, items, spells):
+def add_hero(name, hero_class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance, hp, mp, armor, speed, luck, items, spells, user_id):
     conn = sqlite3.connect('heroes.db')
     c = conn.cursor()
 
-    # Dodanie bohatera do heroes.db (wszyscy bohaterowie)
+    # Dodanie bohatera z przypisaniem do użytkownika
     c.execute(''' 
-        INSERT INTO heroes (name, class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance, hp, mp, armor, speed, luck)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ''', (name, hero_class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance, hp, mp, armor, speed, luck))
-    conn.commit()
-    conn.close()
+        INSERT INTO heroes (name, class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance, hp, mp, armor, speed, luck, user_id)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (name, hero_class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance, hp, mp, armor, speed, luck, user_id))
     
-    # -----------------Druga część funkcji-------------------------
+    hero_id = c.lastrowid  # Pobranie ID nowo dodanego bohatera
+
+    # Dodanie ekwipunku i zaklęć do osobnej bazy danych bohatera
+    conn_hero = sqlite3.connect(f"{name}_baza.db")
+    c_hero = conn_hero.cursor()
     
-    conn = sqlite3.connect(f"{name}_baza.db")
-    c = conn.cursor()
-    
-    # Wpisz staty do jego osobistej bazy danych
-    c.execute(''' 
+    c_hero.execute(''' 
         INSERT INTO staty_herosa (name, class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance, hp, mp, armor, speed, luck)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ''', (name, hero_class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance, hp, mp, armor, speed, luck))
     
-    # Insert spelli i itemów do bazy danych bohatera (plecak i spelle)
     for item_id in items:
-        c.execute("INSERT INTO plecak (item_id) VALUES (?)",(item_id)) 
+        c_hero.execute("INSERT INTO plecak (item_id) VALUES (?)", (item_id,))
     for spell_id in spells:
-        c.execute("INSERT INTO spells (spell_id) VALUES (?)",(spell_id))   
+        c_hero.execute("INSERT INTO spells (spell_id) VALUES (?)", (spell_id,))
     
-  
+    conn_hero.commit()
+    conn_hero.close()
     conn.commit()
     conn.close()
 

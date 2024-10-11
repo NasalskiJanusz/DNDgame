@@ -94,27 +94,27 @@
             <div class="row">
                 <div class="col-md-2">
                     <label for="strength" class="form-label">Siła (STR):</label>
-                    <input type="number" class="form-control" id="strength" name="strength" value="10" required>
+                    <input type="number" class="form-control" id="strength" name="strength" value="0" required>
                 </div>
                 <div class="col-md-2">
                     <label for="dexterity" class="form-label">Zręczność (DEX):</label>
-                    <input type="number" class="form-control" id="dexterity" name="dexterity" value="10" required>
+                    <input type="number" class="form-control" id="dexterity" name="dexterity" value="0" required>
                 </div>
                 <div class="col-md-2">
                     <label for="stm" class="form-label">Wytrzymałość (STM):</label>
-                    <input type="number" class="form-control" id="stm" name="stm" value="10" required>
+                    <input type="number" class="form-control" id="stm" name="stm" value="0" required>
                 </div>
                 <div class="col-md-2">
                     <label for="intelligence" class="form-label">Inteligencja (INT):</label>
-                    <input type="number" class="form-control" id="intelligence" name="intelligence" value="10" required>
+                    <input type="number" class="form-control" id="intelligence" name="intelligence" value="0" required>
                 </div>
                 <div class="col-md-2">
                     <label for="charisma" class="form-label">Charyzma (CHA):</label>
-                    <input type="number" class="form-control" id="charisma" name="charisma" value="10" required>
+                    <input type="number" class="form-control" id="charisma" name="charisma" value="0" required>
                 </div>
                 <div class="col-md-2">
                     <label for="luck" class="form-label">Szczęście (LUC):</label>
-                    <input type="number" class="form-control" id="luck" name="luck" value="10" required>
+                    <input type="number" class="form-control" id="luck" name="luck" value="0" required>
                 </div>
             </div>
 
@@ -123,23 +123,28 @@
             <div class="row">
                 <div class="col-md-4">
                     <label for="hp" class="form-label">Punkty Życia (HP):</label>
-                    <input type="number" class="form-control" id="hp" name="hp" value="10" required>
+                    <input type="number" class="form-control" id="hp" name="hp" value="0" required>
                 </div>
                 <div class="col-md-4">
                     <label for="mp" class="form-label">Mana (MP):</label>
-                    <input type="number" class="form-control" id="mp" name="mp" value="10" required>
+                    <input type="number" class="form-control" id="mp" name="mp" value="0" required>
                 </div>
+                <div class="col-md-4">
+                    <label for="life_steal" class="form-label">Wysysanie Życia (LS):</label>
+                    <input type="number" class="form-control" id="life_steal" name="life_steal" value="0" required>
+                </div>
+                
                 <div class="col-md-4">
                     <label for="armor" class="form-label">Pancerz (AC):</label>
-                    <input type="number" class="form-control" id="armor" name="armor" value="10" required>
-                </div>
-                <div class="col-md-4">
-                    <label for="speed" class="form-label">Szybkość (SPD):</label>
-                    <input type="number" class="form-control" id="speed" name="speed" value="10" required>
+                    <input type="number" class="form-control" id="armor" name="armor" value="0" required>
                 </div>
                 <div class="col-md-4">
                     <label for="magic_resistance" class="form-label">Obrona Magiczna (MR):</label>
-                    <input type="number" class="form-control" id="magic_resistance" name="magic_resistance" value="10" required>
+                    <input type="number" class="form-control" id="magic_resistance" name="magic_resistance" value="0" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="speed" class="form-label">Szybkość (SPD):</label>
+                    <input type="number" class="form-control" id="speed" name="speed" value="0" required>
                 </div>
             </div>
             <!-- Umiejętności (Zaklęcia) -->
@@ -178,8 +183,7 @@
             <!-- Przycisk do wysłania formularza -->
             <div class="mb-3 row">
                 <button type="submit" class="custom-button">Stwórz Postać</button>
-            </div>
-            <div class="mb-3 row">
+
                 <a href="{{ url_for('index') }}" class="custom-button">Wróć do Menu</a>
             </div>
         </form>

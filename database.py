@@ -98,6 +98,7 @@ def init_items_db():
         mr INTEGER NOT NULL,
         spd INTEGER NOT NULL,
         luck INTEGER NOT NULL,
+        life_steal INTEGER,  -- Nowa kolumna Wysysanie życia
         rarity TEXT,
         desc TEXT,
         where_item TEXT
@@ -119,26 +120,27 @@ def init_heroes_db():
         conn = sqlite3.connect('heroes.db')
         c = conn.cursor()
         c.execute('''
-            CREATE TABLE IF NOT EXISTS heroes (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                class TEXT NOT NULL,
-                race TEXT,
-                strength INTEGER,
-                dexterity INTEGER,
-                stm INTEGER,
-                intelligence INTEGER,
-                charisma INTEGER,
-                magic_resistance INTEGER,
-                hp INTEGER,
-                mp INTEGER,
-                armor INTEGER,
-                speed INTEGER,
-                luck INTEGER,
-                user_id INTEGER NOT NULL,  -- ID użytkownika
-                FOREIGN KEY (user_id) REFERENCES users(id)  -- Powiązanie z tabelą users
-            )
-        ''')
+        CREATE TABLE IF NOT EXISTS heroes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            class TEXT NOT NULL,
+            race TEXT,
+            strength INTEGER,
+            dexterity INTEGER,
+            stm INTEGER,
+            intelligence INTEGER,
+            charisma INTEGER,
+            magic_resistance INTEGER,
+            hp INTEGER,
+            mp INTEGER,
+            armor INTEGER,
+            speed INTEGER,
+            luck INTEGER,
+            life_steal INTEGER,  -- Nowa kolumna Wysysanie życia
+            user_id INTEGER NOT NULL,
+            FOREIGN KEY (user_id) REFERENCES users(id)
+        )
+    ''')
         conn.commit()
         conn.close()
     else:
@@ -147,15 +149,17 @@ def init_heroes_db():
 
 
 # Funkcja do dodawania bohatera do bazy danych
-def add_hero(name, hero_class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance, hp, mp, armor, speed, luck, items, spells, user_id):
+def add_hero(name, hero_class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance, hp, mp, armor, speed, luck,life_steal, items, spells, user_id):
     conn = sqlite3.connect('heroes.db')
     c = conn.cursor()
 
     # Dodanie bohatera z przypisaniem do użytkownika
-    c.execute(''' 
-        INSERT INTO heroes (name, class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance, hp, mp, armor, speed, luck, user_id)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ''', (name, hero_class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance, hp, mp, armor, speed, luck, user_id))
+    c.execute('''
+        INSERT INTO heroes (name, class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance,
+                            hp, mp, armor, speed, luck, life_steal, user_id)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (name, hero_class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance,
+        hp, mp, armor, speed, luck, life_steal, user_id))
     
     hero_id = c.lastrowid  # Pobranie ID nowo dodanego bohatera
 
@@ -163,10 +167,12 @@ def add_hero(name, hero_class, race, strength, dexterity, stm, intelligence, cha
     conn_hero = sqlite3.connect(f"{name}_baza.db")
     c_hero = conn_hero.cursor()
     
-    c_hero.execute(''' 
-        INSERT INTO staty_herosa (name, class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance, hp, mp, armor, speed, luck)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ''', (name, hero_class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance, hp, mp, armor, speed, luck))
+    c_hero.execute('''
+        INSERT INTO staty_herosa (name, class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance,
+                                hp, mp, armor, speed, luck, life_steal)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (name, hero_class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance,
+        hp, mp, armor, speed, luck, life_steal))
     
     for item_id in items:
         c_hero.execute("INSERT INTO plecak (item_id) VALUES (?)", (item_id,))
@@ -189,25 +195,26 @@ def create_hero_equipment_spells_databases(hero_name):
     
     # Staty do modyfikacji w obliczeniach
     c.execute('''
-            CREATE TABLE IF NOT EXISTS staty_herosa (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                class TEXT NOT NULL,
-                race TEXT,
-                strength INTEGER,
-                dexterity INTEGER,
-                stm INTEGER,
-                intelligence INTEGER,
-                charisma INTEGER,
-                magic_resistance INTEGER,
-                hp INTEGER,
-                mp INTEGER,
-                armor INTEGER,
-                speed INTEGER,
-                luck INTEGER
-            )
-        ''')
-    
+        CREATE TABLE IF NOT EXISTS staty_herosa (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            class TEXT NOT NULL,
+            race TEXT,
+            strength INTEGER,
+            dexterity INTEGER,
+            stm INTEGER,
+            intelligence INTEGER,
+            charisma INTEGER,
+            magic_resistance INTEGER,
+            hp INTEGER,
+            mp INTEGER,
+            armor INTEGER,
+            speed INTEGER,
+            luck INTEGER,
+            life_steal INTEGER
+        )
+    ''')
+
     # Eq postaci czyli to co nosi na sobie
     c.execute('''
               CREATE TABLE IF NOT EXISTS ekwipunek(

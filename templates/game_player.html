@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real-Time Collaboration Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <title>Strona z Współpracą w Czasie Rzeczywistym</title>
     <style>
         body, html {
             margin: 0;
@@ -12,6 +15,7 @@
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
+            font-family: 'MedievalSharp', cursive;
         }
 
         #container {
@@ -21,95 +25,245 @@
         }
 
         #panel1 {
-            background-color: #f2f2f2;
-            width: 200px; /* default width */
-            transition: width 0.3s;
+            background-color: #333;
+            color: #fff;
+            width: 400px;
+            transition: width 0.3s, visibility 0.3s, opacity 0.3s;
             padding: 10px;
+            position: relative;
+
         }
 
         #panel1.collapsed {
-            width: 50px;
+            width: 0;
+            visibility: hidden;
+            opacity: 0;
+            padding: 0;
         }
 
         #panel2 {
             flex-grow: 1;
-            background-color: #e0e0e0;
+            background-color: #f5f5f5;
             padding: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
-        }
-
-        #panel3, #panel4 {
-            background-color: #d0d0d0;
-            height: 50px;
-            padding: 10px;
+            overflow: auto;
         }
 
         #panel3 {
+            background-color: #666;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            flex-basis: 100px;
+            color: white;
+        }
+
+        #panel3A, #panel3B {
+            background-color: #555;
+            padding: 5px;
             flex-grow: 1;
+            margin-bottom: 5px;
+            text-align: center;
+            color: white;
+        }
+
+        #panel3B {
+            margin-bottom: 0;
         }
 
         #panel4 {
-            height: 50px;
+            height: 150px;
+            background-color: #444;
+            padding: 10px;
+            color: white;
+            text-align: center;
+            flex-grow: 0;
         }
 
-        #toggleButton {
-            margin: 10px;
+        #panel5 {
+            background-color: #333;
+            color: #fff;
+            width: 400px;
+            transition: width 0.3s, visibility 0.3s, opacity 0.3s;
+            padding: 10px;
+            position: relative;
+            height:125px;
+        }
+
+        #panel5.collapsed {
+            width: 0;
+            visibility: hidden;
+            opacity: 0;
+            padding: 0;
+        }
+
+        #toggleButton1, #toggleButton5 {
             padding: 5px;
             cursor: pointer;
-            background-color: #ccc;
+            background-color: #999;
+            color: white;
             border: none;
+            position: absolute;
+            top: 10px;
+            z-index: 1000;
+            width: 40px;
+            height: 30px;
+            font-size: 16px;
         }
+
+        #toggleButton1 {
+            left: 10px;
+        }
+
+        #panel1.collapsed + #toggleButton1 {
+            left: 0px;
+        }
+
+        #panel1:not(.collapsed) + #toggleButton1 {
+            left: 410px;
+        }
+
+        #toggleButton5 {
+            right: 10px;
+        }
+
+        #panel5.collapsed + #toggleButton5 {
+            right: 0px;
+        }
+
+        #panel5:not(.collapsed) + #toggleButton5 {
+            right: 410px;
+        }
+
+        #panel1 p, #panel5 p {
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        #panel3 {
+            flex-grow: 0;
+        }
+
+        #panel2 p {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 36px;
+        }
+
+        /* Nowa stylizacja przycisków */
+        .custom-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 30px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 20px 20px 20px black;
+            transition: transform 0.1s, color 0.2s;
+            padding: 0;
+            margin: 0;
+        }
+
+        .custom-button:hover {
+            transform: scale(1.05);
+            color: #ffa500;
+        }
+
     </style>
 </head>
 <body>
 
 <div id="container">
-    <!-- Panel 1 (Collapsible) -->
-    <div id="panel1">
-        <button id="toggleButton">Toggle Panel 1</button>
-        <!-- Additional content for panel 1 here -->
+    <!-- Panel 1 (Zwijany/Wysuwany) -->
+    <div id="panelContainer">
+        <div id="panel1" style="text-align:center;">
+            <!-- Zawartość panelu 1 -->
+            <p>Ekwipunek oraz staty graczy</p>
+            <div class="button-container">
+                <button id="player1Button" class="custom-button">Kamil</button>
+                <button id="player2Button" class="custom-button">Piotrek</button>
+                <button id="player3Button" class="custom-button">Kuba</button>
+            </div>
+        </div>
+        <button id="toggleButton1"class="custom-button"><<<</button>
     </div>
 
-    <!-- Main content area (Panels 2, 3, 4) -->
-    <div style="flex-grow: 1; display: flex; flex-direction: column;">
-        <!-- Panel 3 (Menu) -->
+    <!-- Główna zawartość strony (Panele 2, 3, 4) -->
+    <div class="main-content">
+        <!-- Panel 3 (Menu) podzielony na dwie sekcje -->
         <div id="panel3">
-            <!-- Add menu content here -->
-            <p>Menu content here</p>
+            <div id="panel3A">
+                <!-- Zawartość pierwszej części panelu 3 -->
+                <p>Część 1</p>
+            </div>
+            <div id="panel3B">
+                <!-- Zawartość drugiej części panelu 3 -->
+                <p>Część 2</p>
+            </div>
         </div>
 
-        <!-- Panel 2 (Real-time collaboration) -->
+        <!-- Panel 2 (Współpraca w czasie rzeczywistym) -->
         <div id="panel2" contenteditable="true">
-            <!-- Users can edit this content -->
-            <p>Real-time collaboration area. Drag items, enter text here.</p>
+            <!-- Użytkownicy mogą edytować tę zawartość -->
+            <p>Obszar współpracy w czasie rzeczywistym. Przeciągaj elementy, wprowadzaj tekst tutaj.</p>
         </div>
 
-        <!-- Panel 4 (Actions) -->
+        <!-- Panel 4 (Akcje) -->
         <div id="panel4">
-            <!-- Add action content here -->
-            <p>Actions area here</p>
+            <!-- Dodaj zawartość akcji tutaj -->
+            <p>Obszar akcji tutaj</p>
         </div>
     </div>
-</div>
+
+    <!-- Panel 5 (Zwijany/Wysuwany) -->
+    <div id="panelContainer">
+        <div id="panel5" style="text-align:center;">
+            <!-- Zawartość panelu 5 -->
+            <p>Akcje game mastera</p>
+        </div>
+        <button id="toggleButton5" class="custom-button">>>></button>
+    </div>
+</div>  ``
 
 <script>
-    // JavaScript to toggle Panel 1
-    document.getElementById('toggleButton').addEventListener('click', function() {
-        var panel1 = document.getElementById('panel1');
+    // JavaScript do wysuwania Panelu 1
+    const toggleButton1 = document.getElementById('toggleButton1');
+    const panel1 = document.getElementById('panel1');
+
+    toggleButton1.addEventListener('click', function() {
         panel1.classList.toggle('collapsed');
+        if (panel1.classList.contains('collapsed')) {
+            toggleButton1.textContent = ">>>"; 
+        } else {
+            toggleButton1.textContent = "<<<"; 
+        }
     });
 
-    // Basic drag-and-drop functionality (for future extensions in panel 2)
-    const panel2 = document.getElementById('panel2');
-    panel2.addEventListener('dragover', function(e) {
-        e.preventDefault();  // Allow dropping
-    });
-    panel2.addEventListener('drop', function(e) {
-        e.preventDefault();
-        const data = e.dataTransfer.getData('text');
-        panel2.innerHTML += `<p>${data}</p>`;  // Handle dropped data (text in this case)
+    // JavaScript do wysuwania Panelu 5
+    const toggleButton5 = document.getElementById('toggleButton5');
+    const panel5 = document.getElementById('panel5');
+
+    toggleButton5.addEventListener('click', function() {
+        panel5.classList.toggle('collapsed');
+        if (panel5.classList.contains('collapsed')) {
+            toggleButton5.textContent = "<<<";
+        } else {
+            toggleButton5.textContent = ">>>";
+        }
     });
 </script>
 

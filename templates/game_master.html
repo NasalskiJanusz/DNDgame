@@ -13,163 +13,78 @@
             padding: 0;
             height: 100%;
             box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
             font-family: 'MedievalSharp', cursive;
         }
 
         #container {
             display: flex;
-            height: 100%;
-            overflow: hidden;
+            height: 100vh; /* Cała wysokość widoczna */
         }
 
+        /* Panel 1 */
         #panel1 {
             background-color: #333;
             color: #fff;
             width: 400px;
-            transition: width 0.3s, visibility 0.3s, opacity 0.3s;
-            padding: 10px;
-            position: relative;
-
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            
+            height: 100%;
+            font-size: 25px;
         }
 
         #panel1.collapsed {
             width: 0;
             visibility: hidden;
-            opacity: 0;
+            opacity: 0.3;
             padding: 0;
         }
 
-        #panel2 {
-            flex-grow: 1;
-            background-color: #f5f5f5;
-            padding: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: auto;
-        }
-
-        #panel3 {
-            background-color: #666;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            flex-basis: 100px;
-            color: white;
-        }
-
-        #panel3A, #panel3B {
-            background-color: #555;
-            padding: 5px;
-            flex-grow: 1;
-            margin-bottom: 5px;
-            text-align: center;
-            color: white;
-        }
-
-        #panel3B {
-            margin-bottom: 0;
-        }
-
-        #panel4 {
-            height: 150px;
-            background-color: #444;
-            padding: 10px;
-            color: white;
-            text-align: center;
-            flex-grow: 0;
-        }
-
-        #panel5 {
-            background-color: #333;
-            color: #fff;
+        /* Placeholder for panel 1 when collapsed */
+        #panel1Placeholder {
+            display: none;
             width: 400px;
-            transition: width 0.3s, visibility 0.3s, opacity 0.3s;
-            padding: 10px;
-            position: relative;
-            height:125px;
-        }
-
-        #panel5.collapsed {
-            width: 0;
-            visibility: hidden;
-            opacity: 0;
-            padding: 0;
-        }
-
-        #toggleButton1, #toggleButton5 {
-            padding: 5px;
-            cursor: pointer;
             background-color: #999;
-            color: white;
-            border: none;
-            position: absolute;
-            top: 10px;
-            z-index: 1000;
-            width: 40px;
-            height: 30px;
-            font-size: 16px;
+            height: 100%;
+            visibility: hidden; /* Dodajemy, aby ukryć go w nieodpowiednich momentach */
+            
+        }
+        
+        #panel1.collapsed + #panel1Placeholder {
+            display: block;
+            visibility: visible;
         }
 
-        #toggleButton1 {
-            left: 10px;
+        /* Górna część panelu 1 */
+        .panel-top {
+            padding: 10px;
+            text-align: center;
+            flex-shrink: 0;
+            margin-bottom: 15px;
+            height: 110px; /* Ustawienie wysokości takiej samej jak panel 5 */
+            background-color: #333; /* Możesz dodać to dla spójności */
         }
-
-        #panel1.collapsed + #toggleButton1 {
-            left: 0px;
-        }
-
-        #panel1:not(.collapsed) + #toggleButton1 {
-            left: 410px;
-        }
-
-        #toggleButton5 {
-            right: 10px;
-        }
-
-        #panel5.collapsed + #toggleButton5 {
-            right: 0px;
-        }
-
-        #panel5:not(.collapsed) + #toggleButton5 {
-            right: 410px;
-        }
-
-        #panel1 p, #panel5 p {
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-
-        .main-content {
-            display: flex;
-            flex-direction: column;
+        
+        /* Dolna część panelu 1 (Reszta treści) */
+        .panel-bottom {
             flex-grow: 1;
+            background-color: #999;
+            padding: 10px;
+            overflow-y: auto;
         }
-
-        #panel3 {
-            flex-grow: 0;
-        }
-
-        #panel2 p {
-            font-size: 18px;
-            color: #333;
-        }
-
         .button-container {
             display: flex;
             justify-content: center;
             gap: 10px;
-            margin-top: 36px;
+            margin-top: 20px;
         }
 
-        /* Nowa stylizacja przycisków */
         .custom-button {
             background: none;
             border: none;
             cursor: pointer;
-            font-size: 30px;
+            font-size: 25px;
             font-weight: bold;
             color: white;
             text-shadow: 20px 20px 20px black;
@@ -183,6 +98,169 @@
             color: #ffa500;
         }
 
+        /* Panel 2 */
+        #panel2 {
+            flex-grow: 1;
+            background-color: #f5f5f5;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: auto;
+        }
+        #panelContainer {
+            display: flex;
+            flex-direction: row;
+            align-items: stretch; /* Ustawia panele na pełną wysokość */
+        }
+        
+
+        /* Panel 3 */
+        #panel3 {
+            background-color: #666;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            color: white;
+            flex-shrink: 0; /* Prevent resizing */
+        }
+
+        #panel3A, #panel3B {
+            background-color: #555;
+            padding: 5px;
+            flex-grow: 0;
+            margin-bottom: 5px;
+            text-align: center;
+            color: white;
+        }
+
+        #panel3B {
+            margin-bottom: 0;
+        }
+
+        /* Panel 4 */
+        #panel4 {
+            height: 150px;
+            background-color: #444;
+            padding: 10px;
+            color: white;
+            text-align: center;
+            flex-grow: 0;
+        }
+
+        #toggleButton1{
+            padding: 5px;
+            cursor: pointer;
+            background-color: #999;
+            color: white;
+            border: none;
+            position: absolute;
+
+            z-index: 1000;
+            width: 40px;
+            height: 30px;
+            font-size: 16px;
+        }
+
+        #toggleButton1 {
+            left: 360px;
+        }
+
+        #panel1.collapsed + #toggleButton1 {
+            left: 0px;
+        }
+
+        #panel1:not(.collapsed) + #toggleButton1 {
+            left: 410px;
+        }
+
+        /* Panel 5 */
+        #panel5 {
+            background-color: #333;
+            color: #fff;
+            width: 400px;
+            
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+
+            font-size: 25px;
+        }
+        
+        #panel5.collapsed {
+            width: 0;
+            visibility: hidden;
+            opacity: 0;
+            padding: 0;
+        }
+        
+        #panel5Placeholder {
+            display: none;
+            width: 400px;
+            background-color: #999;
+            height: 100%;
+            visibility: hidden; /* Ukrycie w nieodpowiednich momentach */
+        }
+        
+        #panel5.collapsed + #panel5Placeholder {
+            display: block;
+            visibility: visible;
+        }
+        
+        #panel5 .panel-top {
+            padding: 10px;
+            text-align: center;
+            flex-shrink: 0;
+            margin-bottom: 15px;
+            height: 110px;
+        }
+        
+        #panel5 .panel-bottom {
+            flex-grow: 1;
+            padding: 10px;  /* Ustaw padding na 10px */
+            background-color: #999;  /* Ten sam kolor dla tła */
+            overflow-y: auto;
+            box-sizing: border-box;  /* Uwzględnia padding w rozmiarze elementu */
+        }
+        
+        
+        
+        /* Zmiana pozycji przycisku w zależności od stanu */
+        #panel5.collapsed + #toggleButton5 {
+            right: 0px;
+        }
+        
+        #panel5:not(.collapsed) + #toggleButton5 {
+            right: 410px;
+        }
+        
+        #toggleButton5 {
+            right: 360px;
+            padding: 5px;
+            cursor: pointer;
+            background-color: #999;
+            color: white;
+            border: none;
+            position: absolute;
+
+            z-index: 1000;
+            width: 40px;
+            height: 30px;
+            font-size: 16px;
+        }
+        
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        #panel2 p {
+            font-size: 18px;
+            color: #333;
+        }
     </style>
 </head>
 <body>
@@ -190,16 +268,30 @@
 <div id="container">
     <!-- Panel 1 (Zwijany/Wysuwany) -->
     <div id="panelContainer">
-        <div id="panel1" style="text-align:center;">
-            <!-- Zawartość panelu 1 -->
-            <p>Ekwipunek oraz staty graczy</p>
-            <div class="button-container">
-                <button id="player1Button" class="custom-button">Kamil</button>
-                <button id="player2Button" class="custom-button">Piotrek</button>
-                <button id="player3Button" class="custom-button">Kuba</button>
+        <div id="panel1">
+            <!-- Górna część panelu 1 -->
+            <div class="panel-top">
+                <p>Ekwipunek i staty</p>
+                <div class="button-container">
+                    <button id="player1Button" class="custom-button">Kamil</button>
+                    <button id="player2Button" class="custom-button">Piotrek</button>
+                    <button id="player3Button" class="custom-button">Kuba</button>
+                </div>
+            </div>
+            
+            <!-- Dolna część panelu 1 -->
+            <div class="panel-bottom">
+                <!-- Treść na resztę wolnej przestrzeni -->
+                <p>Dolna część panelu na dodatkowe informacje</p>
             </div>
         </div>
-        <button id="toggleButton1"class="custom-button"><<<</button>
+        <!-- Placeholder when panel1 is collapsed -->
+        <div id="panel1Placeholder">
+            ja pierdole
+            ajefjaesbfkjaesbfkesa
+            esfesfef
+        </div>
+        <button id="toggleButton1" class="custom-button"><<<</button>
     </div>
 
     <!-- Główna zawartość strony (Panele 2, 3, 4) -->
@@ -231,40 +323,48 @@
 
     <!-- Panel 5 (Zwijany/Wysuwany) -->
     <div id="panelContainer">
-        <div id="panel5" style="text-align:center;">
-            <!-- Zawartość panelu 5 -->
-            <p>Akcje game mastera</p>
+        <div id="panel5">
+            <!-- Górna część panelu 5 -->
+            <div class="panel-top">
+                <p>Akcje game mastera</p>
+                <div class="button-container">
+                    <button id="action1Button" class="custom-button">Akcja 1</button>
+                    <button id="action2Button" class="custom-button">Akcja 2</button>
+                </div>
+            </div>
+            
+            <!-- Dolna część panelu 5 -->
+            <div class="panel-bottom">
+                <!-- Treść na resztę wolnej przestrzeni -->
+                <p>Dolna część panelu na dodatkowe akcje game mastera</p>
+            </div>
+        </div>
+        <!-- Placeholder when panel5 is collapsed -->
+        <div id="panel5Placeholder" class="panel-placeholder">
+            Panel5 collapsed content
         </div>
         <button id="toggleButton5" class="custom-button">>>></button>
     </div>
+    
 </div>
 
 <script>
-    // JavaScript do wysuwania Panelu 1
-    const toggleButton1 = document.getElementById('toggleButton1');
-    const panel1 = document.getElementById('panel1');
+// Toggles for panel 1
+document.getElementById("toggleButton1").addEventListener("click", function() {
+    var panel1 = document.getElementById("panel1");
+    var placeholder = document.getElementById("panel1Placeholder");
+    panel1.classList.toggle("collapsed");
+    placeholder.classList.toggle("visible");
+});
 
-    toggleButton1.addEventListener('click', function() {
-        panel1.classList.toggle('collapsed');
-        if (panel1.classList.contains('collapsed')) {
-            toggleButton1.textContent = ">>>"; 
-        } else {
-            toggleButton1.textContent = "<<<"; 
-        }
-    });
+// Toggles for panel 5
+document.getElementById("toggleButton5").addEventListener("click", function() {
+    var panel5 = document.getElementById("panel5");
+    var placeholder = document.getElementById("panel5Placeholder");
+    panel5.classList.toggle("collapsed");
+    placeholder.classList.toggle("visible");
+});
 
-    // JavaScript do wysuwania Panelu 5
-    const toggleButton5 = document.getElementById('toggleButton5');
-    const panel5 = document.getElementById('panel5');
-
-    toggleButton5.addEventListener('click', function() {
-        panel5.classList.toggle('collapsed');
-        if (panel5.classList.contains('collapsed')) {
-            toggleButton5.textContent = "<<<";
-        } else {
-            toggleButton5.textContent = ">>>";
-        }
-    });
 </script>
 
 </body>

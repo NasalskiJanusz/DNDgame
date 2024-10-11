@@ -27,6 +27,7 @@
                 <label for="type" class="form-label">Typ Przedmiotu: </label>
                 <input type="text" style="margin-left:10px;" class="form-control" id="type" name="type" required>
             </div>
+
             <div class="row">
                 <div class="col-md-2">
                     <label for="str" class="form-label">Siła (STR):</label>
@@ -39,10 +40,14 @@
                 <div class="col-md-2">
                     <label for="stm" class="form-label">Wytrzymałość (STM):</label>
                     <input type="number" class="form-control" id="stm" name="stm" value="0" required>
-                </div>                
+                </div>           
                 <div class="col-md-2">
                     <label for="intelligence" class="form-label">Inteligencja (INT):</label>
                     <input type="number" class="form-control" id="intelligence" name="intelligence" value="0" required>
+                </div>     
+                <div class="col-md-2">
+                    <label for="ls" class="form-label">Wysysanie Życia (LS):</label>
+                    <input type="number" class="form-control" id="ls" name="ls" value="0" required>
                 </div>
                 <div class="col-md-2">
                     <label for="charisma" class="form-label">Charyzma (CHA):</label>
@@ -57,7 +62,7 @@
                     <input type="number" class="form-control" id="mp" name="mp" value="0" required>
                 </div>
                 <div class="col-md-2">
-                    <label for="ac" class="form-label">Pancerz (AC):</label>
+                    <label for="ac" class="form-label">Pancerz (AR):</label>
                     <input type="number" class="form-control" id="ac" name="ac" value="0" required>
                 </div>
                 <div class="col-md-2">
@@ -72,13 +77,22 @@
                     <label for="spd" class="form-label">Szczęście (LUCK):</label>
                     <input type="number" class="form-control" id="luck" name="luck" value="0" required>
                 </div>
-                <div class="col-md-2 row">
+                <div class="col-md-6 ">
+                    <label for="rarity" class="form-label">Rzadkość (Rarity):</label>
+                    <select class="form-select" id="rarity" name="rar" required>
+                        <option value="Legendarny">Legendarny</option>
+                        <option value="Magiczny">Magiczny</option>
+                        <option value="Rzadki">Rzadki</option>
+                        <option value="Pospolity">Pospolity</option>
+                    </select>
+                </div>
+                <div class="col-md-6 row">
                     <label for="type" class="form-label">Opis: </label>
                     <input type="text" style="margin-left:10px;" class="form-control" id="desc" name="desc" required>
                 </div>
             </div>
             <br>
-            
+        <hr class="row">   
             <div class="mb-3 row">
                 <button type="submit" class="btn btn-primary">Dodaj Przedmiot</button>
             </div>
@@ -101,6 +115,7 @@
                     <th>DEX</th>
                     <th>STM</th>
                     <th>INT</th>
+                    <th>LS</th>
                     <th>CHA</th>
                     <th>HP</th>
                     <th>MP</th>
@@ -108,7 +123,7 @@
                     <th>MR</th>
                     <th>SPD</th>
                     <th>LUCK</th>
-                    <th>RARITY</th>
+                    <th>RAR</th>
                     <th>Opis</th>
                     <th>Akcje</th>
                 </tr>
@@ -121,6 +136,7 @@
                         <td>{{ item.dex }}</td>
                         <td>{{ item.stm }}</td>
                         <td>{{ item.int }}</td>
+                        <td>{{ item.life_steal }}</td>
                         <td>{{ item.cha }}</td>
                         <td>{{ item.hp }}</td>
                         <td>{{ item.mp }}</td>
@@ -138,7 +154,7 @@
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="14" class="text-center">Brak przedmiotów w bazie danych.</td>
+                        <td colspan="16" class="text-center">Brak przedmiotów w bazie danych.</td>
                     </tr>
                 {% endfor %}
             </tbody>

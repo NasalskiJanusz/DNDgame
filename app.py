@@ -169,6 +169,7 @@ def new_item():
         mr_value = request.form.get('mr', 0)  # Użyj wartości domyślnej 0, jeśli nie podano
         spd_value = request.form.get('spd', 0)  # Użyj wartości domyślnej 0, jeśli nie podano
         luck_value = request.form.get('luck',0)
+        life_steal_value = request.form.get('ls', 0)  # Użyj wartości domyślnej 0, jeśli nie podano
         rarity_value = request.form.get('rar')
         desc_value = request.form.get('desc')
 
@@ -176,10 +177,11 @@ def new_item():
         conn = sqlite3.connect('items.db')
         c = conn.cursor()
         c.execute('''
-            INSERT INTO items (type, str, dex,stm, int, cha, hp, mp, ac, mr, spd,luck,rar,desc)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)
-        ''', (item_type, str_value, dex_value, stm_value, intelligence_value,
-              charisma_value, hp_value, mp_value, ac_value, mr_value, spd_value,luck_value,rarity_value,desc_value))
+            INSERT INTO items (type, str, dex, stm, int, cha, hp, mp, ac, mr, spd, luck, life_steal, rarity, desc)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (item_type, str_value, dex_value, stm_value, intelligence_value, charisma_value, hp_value, mp_value,
+            ac_value, mr_value, spd_value, luck_value, life_steal_value, rarity_value, desc_value))
+
         conn.commit()
         conn.close()
 
@@ -209,6 +211,7 @@ def new_hero():
         armor = int(request.form['armor'])
         speed = int(request.form['speed'])
         luck = int(request.form['luck'])
+        life_steal = int(request.form['life_steal'])
         # Dodanie bohatera do bazy danych
         try:
             # Tworzenie bazy danych dla bohatera (jego staty, ekwipunek, plecak oraz spelle które umie)
@@ -222,8 +225,8 @@ def new_hero():
             user_id = current_user.id
             
             # Dodanie nowego bohatera
-            add_hero(name, hero_class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance, hp, mp, armor, speed, luck, selected_items, selected_spells, user_id)
-            
+            add_hero(name, hero_class, race, strength, dexterity, stm, intelligence, charisma, magic_resistance,
+            hp, mp, armor, speed, luck, life_steal, selected_items, selected_spells, user_id)
             return redirect(url_for('new_hero'))
         except Exception as e:
             print(f'Wystąpił błąd podczas dodawania bohatera: {e}')
@@ -274,4 +277,6 @@ if __name__ == '__main__':
     init_heroes_db()  # Inicjalizacja bazy danych bohaterów
     create_default_user()  # Tworzenie domyślnego użytkownika
     init_items_db()
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
+
+    # app.run(debug=True)

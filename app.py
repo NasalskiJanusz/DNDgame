@@ -107,7 +107,7 @@ def handle_add_spell():
 
         # Dodaj zaklęcie do bazy danych
         add_spell(name, level, damage_formula, mana_cost, action_points, spell_range, element, description)
-        flash('Zaklęcie zostało pomyślnie dodane!')
+        print('Zaklęcie zostało pomyślnie dodane!')
         return redirect(url_for('handle_add_spell'))
 
     spells = get_all_spells()
@@ -119,7 +119,7 @@ def handle_add_spell():
 @app.route('/delete_spell/<int:spell_id>', methods=['POST'])
 def delete_spell(spell_id):
     delete_spell_by_id(spell_id)
-    flash('Zaklęcie zostało pomyślnie usunięte!')
+    print('Zaklęcie zostało pomyślnie usunięte!')
     return redirect(url_for('handle_add_spell'))
 
 def get_all_spells():
@@ -147,7 +147,7 @@ def delete_item(item_id):
     c.execute('DELETE FROM items WHERE id = ?', (item_id,))
     conn.commit()
     conn.close()
-    flash('Przedmiot został pomyślnie usunięty!')
+    print('Przedmiot został pomyślnie usunięty!')
     return redirect(url_for('new_item'))
 
 
@@ -185,7 +185,7 @@ def new_item():
         conn.commit()
         conn.close()
 
-        flash('Przedmiot został pomyślnie dodany!')
+        print('Przedmiot został pomyślnie dodany!')
         return redirect(url_for('new_item'))
 
     items = get_all_items()  # Pobierz wszystkie przedmioty
@@ -251,7 +251,7 @@ def index():
         return render_template('index.html')
     else:
         # W razie nieznanej roli możesz przekierować do strony błędu lub powiadomić o braku uprawnień
-        flash('Nieznana rola użytkownika!')
+        print('Nieznana rola użytkownika!')
         return redirect(url_for('login'))
     
 @app.route('/game')
@@ -266,7 +266,7 @@ def game():
         return render_template('game_master.html')
     else:
         # W razie nieznanej roli możesz przekierować do strony błędu lub powiadomić o braku uprawnień
-        flash('Nieznana rola użytkownika!')
+        print('Nieznana rola użytkownika!')
         return redirect(url_for('login'))
     
 

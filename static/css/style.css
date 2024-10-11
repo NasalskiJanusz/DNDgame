@@ -26,26 +26,6 @@ body,html {
 }
 
 
-/* Styl dla przycisku muzyki */
-.music-button {
-    position: absolute; /* Ustawienia pozycji */
-    top: 20px; /* Odstęp od góry */
-    right: 20px; /* Odstęp od prawej */
-    background-color: rgba(0, 0, 0, 0.7); /* Tło przycisku */
-    color: white; /* Kolor tekstu */
-    border: none; /* Bez ramki */
-    border-radius: 5px; /* Zaokrąglenie rogów przycisku */
-    padding: 10px; /* Padding przycisku */
-    cursor: pointer; /* Zmiana kursora na wskazujący */
-    font-size: 20px; /* Ustaw rozmiar czcionki dla ikony */
-}
-
-.music-button i {
-    pointer-events: none; /* Zapobiega interakcji z ikoną */
-}
-
-
-
 /* Stylizacja dla przycisków */
 .custom-button {
     width: 300px; /* Szerokość przycisku */
